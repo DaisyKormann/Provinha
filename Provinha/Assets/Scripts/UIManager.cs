@@ -2,26 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
 
-    [SerializeField] TextMeshProUGUI scoreUI, finalScoreUI, recordUI;
-    GameManager gameOverWindow; // janela
-    void Start()
+    [SerializeField] TextMeshProUGUI scoreText, finalScoreText, recordText;
+    public GameObject gameOverWindow; // janela
+    
+ 
+    public void UpdateScoreText(int score)
     {
-        
+        scoreText.text = "Score: " + score.ToString();
     }
 
-    // Update is called once per frame
- public void UpdateScoreText()
+    // Método chamado quando o jogo termina
+    public void GameOver(int finalScore, int record)
     {
-        
+        finalScoreText.text = "Final Score: " + finalScore.ToString();
+        recordText.text = "Record: " + record.ToString();
+        gameOverWindow.SetActive(true);
+        Time.timeScale = 0; // Pausa o jogo
     }
-    public void GameOver(int score, int record, bool newRecord)
+
+    // Método para reiniciar o jogo
+    public void Restart()
     {
-         gameOverWindow.SetActive(true);
-        finalScoreUI.text = "Pontuação: " + score.ToString("0000");
-        recordUI.text = "Recorde: " + record.ToString("0000");
+        Time.timeScale = 1; // Retoma o tempo de jogo
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Recarrega a cena atual
     }
 }
+
+
